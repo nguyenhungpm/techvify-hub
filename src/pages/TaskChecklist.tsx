@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PageHeader, StatusBadge } from "@/components/portal/PortalUI";
+import { RequestTimeline } from "@/components/portal/RequestTimeline";
 import { usePortalStore, CB_ITEMS, ITS_ITEMS, ADMIN_ITEMS } from "@/store/portalStore";
 
 interface Props { kind: "cb" | "its" | "admin"; }
@@ -42,7 +43,9 @@ export default function TaskChecklist({ kind }: Props) {
           const allDone = completed === meta.items.length;
           const isMarkedDone = !!o[meta.doneFlag];
           return (
-            <div key={o.id} className="tv-card overflow-hidden border-l-4 border-l-brand-bright">
+            <div key={o.id} className="space-y-3">
+            <RequestTimeline requestId={o.id} compact />
+            <div className="tv-card overflow-hidden border-l-4 border-l-brand-bright">
               <div className="bg-secondary/40 p-4 flex justify-between items-center border-b border-border">
                 <div>
                   <div className="font-bold text-sm">{o.empName} <span className="text-muted-foreground font-normal">· {o.empId}</span></div>
@@ -84,6 +87,7 @@ export default function TaskChecklist({ kind }: Props) {
                   </div>
                 )}
               </div>
+            </div>
             </div>
           );
         })}

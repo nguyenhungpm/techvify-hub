@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { PageHeader } from "@/components/portal/PortalUI";
+import { RequestTimeline } from "@/components/portal/RequestTimeline";
 import { usePortalStore } from "@/store/portalStore";
 import { Lock, ChevronDown } from "lucide-react";
 
@@ -38,6 +39,8 @@ export default function PplResult() {
           </select>
         }
       />
+
+      <RequestTimeline requestId={off.id} />
 
       {/* Header card */}
       <div className="rounded-xl bg-gradient-brand text-white p-6">
