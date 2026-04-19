@@ -1,105 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
+/* My Techvify Design System — All colors HSL */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Brand blues */
+    --blue-deep: 232 65% 30%;       /* #1a237e */
+    --blue-mid: 231 56% 36%;        /* #283593 */
+    --blue-bright: 210 79% 46%;     /* #1976d2 */
+    --blue-light: 207 89% 94%;      /* #e3f2fd */
+    --blue-hover: 210 79% 41%;      /* #1565c0 */
+    --blue-accent: 231 48% 48%;     /* #3949ab */
+    --blue-soft: 207 73% 76%;       /* #90caf9 */
+
+    /* Page / surface */
+    --background: 222 100% 97%;     /* #f0f4ff */
+    --foreground: 240 26% 14%;      /* #1a1a2e */
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 240 26% 14%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 240 26% 14%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 210 79% 46%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 232 65% 30%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 215 28% 92%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 207 89% 94%;
+    --accent-foreground: 210 79% 41%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --success: 142 71% 38%;
+    --warning: 38 92% 50%;
+    --purple: 282 60% 40%;
 
-    --radius: 0.5rem;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 210 79% 46%;
 
-    --sidebar-background: 0 0% 98%;
+    --radius: 0.75rem;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    /* Sidebar */
+    --sidebar-background: 232 65% 30%;
+    --sidebar-foreground: 207 73% 76%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 232 65% 30%;
+    --sidebar-accent: 231 56% 36%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 231 40% 40%;
+    --sidebar-ring: 207 73% 76%;
 
-    --sidebar-primary: 240 5.9% 10%;
+    /* Status surfaces */
+    --status-pending-bg: 48 100% 95%;
+    --status-pending-text: 38 92% 45%;
+    --status-pending-border: 48 96% 76%;
 
-    --sidebar-primary-foreground: 0 0% 98%;
+    --status-approved-bg: 207 89% 94%;
+    --status-approved-text: 210 79% 46%;
+    --status-approved-border: 213 97% 87%;
 
-    --sidebar-accent: 240 4.8% 95.9%;
+    --status-done-bg: 142 76% 96%;
+    --status-done-text: 142 71% 38%;
+    --status-done-border: 141 79% 85%;
 
-    --sidebar-accent-foreground: 240 5.9% 10%;
+    --status-rejected-bg: 0 86% 97%;
+    --status-rejected-text: 0 84% 60%;
+    --status-rejected-border: 0 93% 82%;
 
-    --sidebar-border: 220 13% 91%;
+    --status-draft-bg: 210 40% 96%;
+    --status-draft-text: 215 16% 47%;
+    --status-draft-border: 214 32% 91%;
 
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+    /* Gradients */
+    --gradient-brand: linear-gradient(135deg, hsl(var(--blue-deep)) 0%, hsl(var(--blue-mid)) 60%, hsl(var(--blue-accent)) 100%);
+    --gradient-sidebar: linear-gradient(180deg, hsl(var(--blue-deep)) 0%, hsl(var(--blue-mid)) 100%);
+    --gradient-topbar: linear-gradient(135deg, hsl(var(--blue-deep)) 0%, hsl(var(--blue-mid)) 100%);
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Shadows */
+    --shadow-card: 0 1px 3px hsl(0 0% 0% / 0.06), 0 1px 2px hsl(0 0% 0% / 0.04);
+    --shadow-elevated: 0 4px 12px hsl(232 65% 30% / 0.12), 0 2px 4px hsl(0 0% 0% / 0.05);
+    --shadow-action: 0 4px 12px hsl(210 79% 46% / 0.25);
   }
 }
 
 @layer base {
-  * {
-    @apply border-border;
+  * { @apply border-border; }
+  html, body { font-family: 'Be Vietnam Pro', system-ui, sans-serif; }
+  body { @apply bg-background text-foreground; }
+}
+
+@layer components {
+  /* Quick action button — replicates mobile app style */
+  .quick-action-btn {
+    @apply relative flex h-16 w-16 items-center justify-center rounded-2xl text-white transition-all;
+    background: hsl(var(--blue-bright));
+    box-shadow: var(--shadow-action);
+  }
+  .quick-action-btn:hover {
+    background: hsl(var(--blue-hover));
+    transform: scale(1.04);
   }
 
-  body {
-    @apply bg-background text-foreground;
+  .badge-count {
+    @apply absolute -right-1.5 -top-1.5 flex min-w-[20px] h-5 items-center justify-center rounded-full bg-[hsl(var(--destructive))] px-1 text-[10px] font-bold text-white;
+    box-shadow: 0 0 0 2px white;
   }
+
+  .status-pending {
+    background: hsl(var(--status-pending-bg));
+    color: hsl(var(--status-pending-text));
+    border: 1px solid hsl(var(--status-pending-border));
+  }
+  .status-approved {
+    background: hsl(var(--status-approved-bg));
+    color: hsl(var(--status-approved-text));
+    border: 1px solid hsl(var(--status-approved-border));
+  }
+  .status-done {
+    background: hsl(var(--status-done-bg));
+    color: hsl(var(--status-done-text));
+    border: 1px solid hsl(var(--status-done-border));
+  }
+  .status-rejected {
+    background: hsl(var(--status-rejected-bg));
+    color: hsl(var(--status-rejected-text));
+    border: 1px solid hsl(var(--status-rejected-border));
+  }
+  .status-draft {
+    background: hsl(var(--status-draft-bg));
+    color: hsl(var(--status-draft-text));
+    border: 1px solid hsl(var(--status-draft-border));
+  }
+
+  .tv-card {
+    @apply rounded-xl bg-card border border-border;
+    box-shadow: var(--shadow-card);
+  }
+
+  .tv-input {
+    @apply w-full rounded-lg border-[1.5px] border-border bg-[hsl(210_40%_98%)] px-3.5 py-2.5 text-sm transition outline-none;
+  }
+  .tv-input:focus {
+    border-color: hsl(var(--blue-bright));
+    background: white;
+    box-shadow: 0 0 0 3px hsl(var(--blue-bright) / 0.1);
+  }
+
+  .tv-chip {
+    @apply inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium border transition cursor-pointer;
+    background: hsl(210 40% 96%);
+    border-color: hsl(var(--border));
+    color: hsl(215 25% 30%);
+  }
+  .tv-chip:hover {
+    border-color: hsl(var(--blue-bright));
+    color: hsl(var(--blue-bright));
+  }
+  .tv-chip-selected {
+    background: hsl(var(--blue-bright)) !important;
+    border-color: hsl(var(--blue-bright)) !important;
+    color: white !important;
+  }
+
+  .tv-radio-card {
+    @apply flex items-start gap-3 p-3.5 rounded-lg cursor-pointer transition border-[1.5px];
+    background: hsl(210 40% 98%);
+    border-color: hsl(var(--border));
+  }
+  .tv-radio-card-selected {
+    background: white !important;
+    border: 2px solid hsl(var(--blue-bright)) !important;
+    font-weight: 600;
+  }
+
+  .notice {
+    @apply flex gap-3 p-4 rounded-lg border text-sm;
+  }
+  .notice-info { background: hsl(var(--blue-light)); border-color: hsl(207 73% 76%); color: hsl(210 79% 41%); }
+  .notice-warn { background: hsl(48 100% 95%); border-color: hsl(48 96% 76%); color: hsl(31 75% 30%); }
+  .notice-confidential { background: hsl(290 60% 95%); border-color: hsl(290 50% 78%); color: hsl(282 60% 35%); }
+  .notice-success { background: hsl(142 76% 96%); border-color: hsl(141 79% 85%); color: hsl(142 71% 30%); }
+
+  .badge-autofill {
+    background: hsl(var(--blue-light)); color: hsl(210 79% 41%); border: 1px solid hsl(207 73% 76%);
+    @apply inline-flex px-2 py-0.5 rounded text-[10px] font-bold;
+  }
+  .badge-missing {
+    background: hsl(0 86% 97%); color: hsl(0 84% 60%); border: 1px solid hsl(0 93% 82%);
+    @apply inline-flex px-2 py-0.5 rounded text-[10px] font-bold;
+  }
+  .badge-autocalc {
+    background: hsl(var(--blue-light)); color: hsl(210 79% 41%);
+    @apply inline-flex px-2 py-0.5 rounded text-[10px] font-bold;
+  }
+
+  .req-mark { color: hsl(var(--destructive)); }
 }
