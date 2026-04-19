@@ -40,7 +40,7 @@ export function StatusBadge({ status }: { status: "pending" | "approved" | "done
     completed: { cls: "status-done", label: "Hoàn thành" },
     rejected: { cls: "status-rejected", label: "Từ chối" },
     draft: { cls: "status-draft", label: "Nháp" },
-    pending_manager: { cls: "status-pending", label: "Chờ Manager" },
+    pending_manager: { cls: "status-pending", label: "Chờ Manager xử lý" },
     in_progress: { cls: "status-approved", label: "Đang xử lý" },
     active: { cls: "status-done", label: "Active" },
     pending_exit: { cls: "status-rejected", label: "Pending Exit" },

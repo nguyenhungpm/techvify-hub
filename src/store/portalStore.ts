@@ -18,34 +18,65 @@ export interface PortalRequest {
 }
 
 export interface ExitFormData {
-  // Step 1 — Reasons
+  // Step 1 — Thông tin
+  noticeDate?: string;
+  lwd?: string;
+  // Step 2 — Lý do nghỉ (multi-cat chips)
+  reasonsByCategory?: Record<string, string[]>;
+  otherReason?: string;
+  primaryCategory?: string;
+  // Backward-compat
   primaryReason?: string;
   detailReasons?: string[];
   notes?: string;
-  // Step 2 — Future
+  // Step 3 — Đánh giá
+  satisfactionText?: string;     // Câu 5
+  policyBlocker?: string;        // Câu 6
+  nextJobAttraction?: string;    // Câu 7
+  // Step 4 — Phản hồi
+  improvementSuggestion?: string;        // Câu 8
+  comebackChoice?: "never" | "maybe" | "yes"; // Câu 9
+  referChoice?: "yes" | "maybe" | "no";       // Câu 10
+  referName?: string;
+  referPhone?: string;
+  referPosition?: string;
+  referEmail?: string;
+  referNote?: string;
+  // Legacy
   comeback?: "yes" | "maybe" | "no";
   refer?: "yes" | "no";
   newJob?: string;
-  // Step 3 — Logistics
-  lwd?: string;
   handoverPerson?: string;
   remainingLeave?: string;
-  // Step 4 — Feedback
   satisfaction?: number;
   improvement?: string;
   submittedAt?: string;
 }
 
 export interface ManagerFormData {
-  // Step 1
+  // Step 1 — Thông tin nhân sự
+  managerName?: string;
+  managerTitle?: string;
+  managerDept?: string;
+  selectedEmpId?: string;
+  empLevel?: string;
+  noticeDate?: string;
+  lwd?: string;
+  // Step 2 — Phân loại
+  exitType?: "VOL" | "INVOL" | "EOC";
   reasonClassification?: string;
-  exitType?: "VOL" | "INVOL";
   narrative?: string;
-  // Step 2
+  // Step 3 — Impact
+  critical?: "critical" | "normal" | "none";
+  replacement?: "yes" | "transfer" | "no";
+  replacementDeadline?: string;
+  impactNote?: string;
+  // Step 4
+  confirmed?: boolean;
+  // Legacy
   criticality?: "low" | "normal" | "high";
   needReplacement?: "yes" | "no";
   replacementBy?: string;
-  // Step 3
   knowledgeTransfer?: string[];
   riskNotes?: string;
   submittedAt?: string;
@@ -71,6 +102,7 @@ export interface OffboardingRequest {
   cbDone?: boolean;
   itsDone?: boolean;
   adminDone?: boolean;
+  pplDone?: boolean;
 }
 
 interface State {
@@ -245,7 +277,7 @@ export const usePortalStore = create<State>()(
           }),
         })),
     }),
-    { name: "techvify-portal-v1" }
+    { name: "techvify-portal-v2" }
   )
 );
 
