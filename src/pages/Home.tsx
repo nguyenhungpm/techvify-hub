@@ -1,8 +1,10 @@
-import { Plus, FileCheck, Info, Wallet, Mail, Phone, IdCard, User, Clock } from "lucide-react";
+import { Plus, FileCheck, Info, Wallet, Mail, Phone, IdCard, User, X } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { currentUser } from "@/lib/mockData";
 import { usePortalStore } from "@/store/portalStore";
 import { SectionHeader } from "@/components/portal/PortalUI";
+import { RequestTimeline } from "@/components/portal/RequestTimeline";
 
 interface QuickAction { icon: any; label: string; badge?: number; to: string; }
 
@@ -19,17 +21,28 @@ function QuickAction({ icon: Icon, label, badge, to }: QuickAction) {
   );
 }
 
-interface TaskCardProps { eyebrow: string; title: string; meta: string; sla?: string; borderColor: string; cta: string; onClick: () => void; }
-function TaskCard({ eyebrow, title, meta, sla, borderColor, cta, onClick }: TaskCardProps) {
+interface TaskCardProps {
+  eyebrow: string; title: string; meta: string; sla?: string;
+  borderColor: string; cta: string; onClick: () => void;
+  trackOffId?: string; onTrack?: (id: string) => void;
+}
+function TaskCard({ eyebrow, title, meta, sla, borderColor, cta, onClick, trackOffId, onTrack }: TaskCardProps) {
   return (
-    <div className="tv-card p-4 flex items-center justify-between gap-4 border-l-4 animate-fade-in" style={{ borderLeftColor: borderColor }}>
-      <div className="min-w-0">
-        <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{eyebrow}</div>
-        <div className="font-bold text-sm text-foreground mt-0.5">{title}</div>
-        <div className="text-[13px] text-muted-foreground mt-0.5">{meta}</div>
-        {sla && <div className="mt-1.5 inline-flex items-center gap-1 status-rejected px-2 py-0.5 rounded text-[10px] font-bold">SLA: {sla}</div>}
+    <div className="tv-card p-4 border-l-4 animate-fade-in" style={{ borderLeftColor: borderColor }}>
+      <div className="flex items-center justify-between gap-4">
+        <div className="min-w-0">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{eyebrow}</div>
+          <div className="font-bold text-sm text-foreground mt-0.5">{title}</div>
+          <div className="text-[13px] text-muted-foreground mt-0.5">{meta}</div>
+          {sla && <div className="mt-1.5 inline-flex items-center gap-1 status-rejected px-2 py-0.5 rounded text-[10px] font-bold">SLA: {sla}</div>}
+        </div>
+        <button onClick={onClick} className="shrink-0 rounded-lg bg-brand-bright text-white px-4 py-2 text-[13px] font-bold hover:bg-brand-hover transition">{cta}</button>
       </div>
-      <button onClick={onClick} className="shrink-0 rounded-lg bg-brand-bright text-white px-4 py-2 text-[13px] font-bold hover:bg-brand-hover transition">{cta}</button>
+      {trackOffId && (
+        <button onClick={() => onTrack?.(trackOffId)} className="mt-2 text-[12px] font-semibold text-brand-bright hover:underline">
+          Xem tiến độ ›
+        </button>
+      )}
     </div>
   );
 }
@@ -39,6 +52,7 @@ export default function Home() {
   const approvals = usePortalStore((s) => s.approvals).filter((a) => a.status === "pending");
   const offboardings = usePortalStore((s) => s.offboardings);
   const hoa = offboardings.find((o) => o.id === "off-hoa");
+  const [trackId, setTrackId] = useState<string | null>(null);
 
   const tasks: TaskCardProps[] = [];
   if (hoa && !hoa.managerForm) {
@@ -50,6 +64,8 @@ export default function Home() {
       borderColor: "hsl(var(--destructive))",
       cta: "Xử lý ngay →",
       onClick: () => navigate(`/manager-form/${hoa.id}`),
+      trackOffId: hoa.id,
+      onTrack: setTrackId,
     });
   }
   approvals.forEach((a) => tasks.push({
@@ -61,10 +77,10 @@ export default function Home() {
     onClick: () => navigate("/request/approval"),
   }));
   if (hoa && hoa.managerForm) {
-    if (!hoa.cbDone) tasks.push({ eyebrow: "✅ MY TASK — C&B", title: "Trần Thị Hoa · Thủ tục C&B", meta: `LWD ${hoa.lwd}`, borderColor: "hsl(var(--blue-bright))", cta: "Xử lý →", onClick: () => navigate("/task/cb") });
-    if (!hoa.itsDone) tasks.push({ eyebrow: "✅ MY TASK — ITS", title: "Trần Thị Hoa · Thu hồi tài sản", meta: "Cần xử lý trước LWD", borderColor: "hsl(var(--blue-bright))", cta: "Xử lý →", onClick: () => navigate("/task/its") });
-    if (!hoa.adminDone) tasks.push({ eyebrow: "✅ MY TASK — Admin", title: "Trần Thị Hoa · Bàn giao hành chính", meta: "Cần xử lý trước LWD", borderColor: "hsl(var(--blue-bright))", cta: "Xử lý →", onClick: () => navigate("/task/admin") });
-    tasks.push({ eyebrow: "👥 PPL/HR", title: "Trần Thị Hoa · 2 form đã có", meta: "Chờ đối chiếu", borderColor: "hsl(var(--purple))", cta: "Đối chiếu →", onClick: () => navigate(`/ppl/result?id=${hoa.id}`) });
+    if (!hoa.cbDone) tasks.push({ eyebrow: "✅ MY TASK — C&B", title: "Trần Thị Hoa · Thủ tục C&B", meta: `LWD ${hoa.lwd}`, borderColor: "hsl(var(--blue-bright))", cta: "Xử lý →", onClick: () => navigate("/task/cb"), trackOffId: hoa.id, onTrack: setTrackId });
+    if (!hoa.itsDone) tasks.push({ eyebrow: "✅ MY TASK — ITS", title: "Trần Thị Hoa · Thu hồi tài sản", meta: "Cần xử lý trước LWD", borderColor: "hsl(var(--blue-bright))", cta: "Xử lý →", onClick: () => navigate("/task/its"), trackOffId: hoa.id, onTrack: setTrackId });
+    if (!hoa.adminDone) tasks.push({ eyebrow: "✅ MY TASK — Admin", title: "Trần Thị Hoa · Bàn giao hành chính", meta: "Cần xử lý trước LWD", borderColor: "hsl(var(--blue-bright))", cta: "Xử lý →", onClick: () => navigate("/task/admin"), trackOffId: hoa.id, onTrack: setTrackId });
+    tasks.push({ eyebrow: "👥 PPL/HR", title: "Trần Thị Hoa · 2 form đã có", meta: "Chờ đối chiếu", borderColor: "hsl(var(--purple))", cta: "Đối chiếu →", onClick: () => navigate(`/ppl/result?id=${hoa.id}`), trackOffId: hoa.id, onTrack: setTrackId });
   }
 
   return (
@@ -127,6 +143,18 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      {/* Timeline modal */}
+      {trackId && (
+        <div className="fixed inset-0 bg-black/40 z-50 grid place-items-center p-6" onClick={() => setTrackId(null)}>
+          <div className="max-w-[820px] w-full" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-end mb-2">
+              <button onClick={() => setTrackId(null)} className="bg-white/20 rounded-md p-1.5"><X className="h-4 w-4 text-white" /></button>
+            </div>
+            <RequestTimeline requestId={trackId} compact />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
