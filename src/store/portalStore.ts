@@ -102,6 +102,7 @@ export interface OffboardingRequest {
   cbDone?: boolean;
   itsDone?: boolean;
   adminDone?: boolean;
+  pplDone?: boolean;
 }
 
 interface State {
@@ -276,7 +277,7 @@ export const usePortalStore = create<State>()(
           }),
         })),
     }),
-    { name: "techvify-portal-v1" }
+    { name: "techvify-portal-v2" }
   )
 );
 
