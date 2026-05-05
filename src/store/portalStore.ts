@@ -287,6 +287,7 @@ export const CB_ITEMS = [
   "Xử lý BHXH — chốt sổ bảo hiểm",
   "Xử lý BHYT — trả thẻ bảo hiểm",
   "Quyết toán thuế TNCN",
+  "Xác nhận ký hai bên (NV + đại diện công ty)",
   "Thanh lý hợp đồng lao động",
   "Chuyển khoản thanh toán cuối",
 ];
