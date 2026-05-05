@@ -88,7 +88,7 @@ export default function ExitForm() {
         submittedAt: new Date().toISOString(),
       },
       managerForm: undefined,
-      cb: Array(7).fill(false),
+      cb: Array(8).fill(false),
       its: Array(9).fill(false),
       admin: Array(4).fill(false),
     });

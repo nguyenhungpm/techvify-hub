@@ -183,7 +183,7 @@ const seedOffboardings: OffboardingRequest[] = [
       needReplacement: "no",
       submittedAt: new Date(Date.now() - 28 * 86400_000).toISOString(),
     },
-    cb: Array(7).fill(true),
+    cb: Array(8).fill(true),
     its: Array(9).fill(true),
     admin: Array(4).fill(true),
     cbDone: true,
@@ -288,7 +288,7 @@ export const usePortalStore = create<State>()(
           }),
         })),
     }),
-    { name: "techvify-portal-v2" }
+    { name: "techvify-portal-v3" }
   )
 );
 
