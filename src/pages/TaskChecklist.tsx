@@ -42,6 +42,7 @@ export default function TaskChecklist({ kind }: Props) {
           const completed = checks.filter(Boolean).length;
           const allDone = completed === meta.items.length;
           const isMarkedDone = !!o[meta.doneFlag];
+          const cbLocked = kind === "cb" && !(o.itsDone && o.adminDone);
           return (
             <div key={o.id} className="space-y-3">
             <RequestTimeline requestId={o.id} compact />
@@ -54,6 +55,19 @@ export default function TaskChecklist({ kind }: Props) {
                 <StatusBadge status={isMarkedDone ? "done" : "in_progress"} />
               </div>
               <div className="p-5">
+                {kind === "cb" && (
+                  cbLocked ? (
+                    <div className="notice notice-warn mb-4">
+                      <span>⏳</span>
+                      <div>Đang chờ <b>ITS</b> và <b>Admin</b> hoàn thành bàn giao. C&B sẽ được mở sau khi cả 2 bộ phận hoàn tất.</div>
+                    </div>
+                  ) : !isMarkedDone && (
+                    <div className="notice notice-success mb-4">
+                      <span>✅</span>
+                      <div>ITS và Admin đã hoàn thành. Bạn có thể bắt đầu xử lý thủ tục C&B.</div>
+                    </div>
+                  )
+                )}
                 <div className="flex justify-between text-xs font-semibold mb-2">
                   <span>Tiến độ</span>
                   <span className="text-brand-bright">{completed} / {meta.items.length} hoàn thành</span>
@@ -61,13 +75,13 @@ export default function TaskChecklist({ kind }: Props) {
                 <div className="h-2 bg-secondary rounded-full overflow-hidden mb-4">
                   <div className="h-full bg-brand-bright transition-all" style={{ width: `${(completed / meta.items.length) * 100}%` }} />
                 </div>
-                <div className="space-y-2">
+                <div className={`space-y-2 ${cbLocked ? "opacity-40 pointer-events-none" : ""}`}>
                   {meta.items.map((label, i) => (
-                    <label key={i} className={`flex items-start gap-3 p-2.5 rounded-lg hover:bg-secondary/50 cursor-pointer ${checks[i] ? "" : ""}`}>
+                    <label key={i} className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-secondary/50 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={checks[i]}
-                        disabled={isMarkedDone}
+                        disabled={isMarkedDone || cbLocked}
                         onChange={() => toggle(o.id, kind, i)}
                         className="mt-0.5 h-4 w-4 accent-brand-bright"
                       />
@@ -75,8 +89,11 @@ export default function TaskChecklist({ kind }: Props) {
                     </label>
                   ))}
                 </div>
-                {!isMarkedDone && (
-                  <div className="flex justify-end mt-5">
+                {!isMarkedDone && !cbLocked && (
+                  <div className="mt-5 pt-4 border-t border-border flex flex-wrap items-center justify-between gap-3">
+                    <button type="button" className="rounded-lg border-[1.5px] border-border bg-secondary/40 text-foreground px-3 py-2 text-[12px] font-semibold hover:border-brand-bright hover:text-brand-bright transition">
+                      📎 Upload biên bản bàn giao
+                    </button>
                     <button
                       disabled={!allDone}
                       onClick={() => complete(o.id, kind)}
